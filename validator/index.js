@@ -153,4 +153,10 @@ exports.postValidator = [
     .isEmpty()
 ];
 
+exports.settingValidator = [
+  check("content", "Vous devez saisir le contenu pour cette configuration")
+    .not()
+    .isEmpty()
+];
+
 exports.variantValidator = [];
