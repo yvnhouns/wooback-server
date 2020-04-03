@@ -22,6 +22,7 @@ const userRoutes = require("./routes/user");
 const CategorieRoutes = require("./routes/category");
 const postRoute = require("./routes/post");
 const wooRoute = require("./woocommerce/routes");
+const settingRoute = require("./routes/setting");
 
 const port = process.env.PORT || 8000;
 
@@ -41,7 +42,7 @@ const server = http.createServer(app);
 
 // middlewares
 app.use(morgan("dev"));
-app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.json({ limit: "10mb" }));
 app.use(cookieParser());
 
 Array.prototype.uniqueFields = function() {
@@ -60,6 +61,7 @@ app.use("/api", userRoutes);
 app.use("/api", CategorieRoutes);
 app.use("/api", postRoute);
 app.use("/api", wooRoute);
+app.use("/api", settingRoute);
 
 server.listen(port, () => {
   console.log(`Server is runing on port ${port};`);

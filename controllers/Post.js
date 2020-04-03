@@ -425,7 +425,6 @@ const execSearchPaginate = (
     docs: "results"
   };
 
-  console.log({ select });
   const option = {
     select,
     projection: toSort && { score: { $meta: "textScore" } },

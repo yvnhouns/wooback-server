@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 const User = require("../models/user");
+const Setting = require("../models/setting");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken"); // to generate signed token
@@ -67,15 +69,16 @@ exports.signin = (req, res) => {
 
     // return response with user and token to frontend cleint
     const { _id, nom, email, phone, nomAfficher, role, address, store } = user;
-    return res.json({
-      token,
-      user: { _id, nom, email, phone, nomAfficher, role, address, store },
-      woocommerceApi: {
-        url: process.env.WOOCOMMERCE_URL,
-        key: process.env.WOOCOMMERCE_KEY,
-        secret: process.env.WOOCOMMERCE_SECRET
-      }
-    });
+
+    Setting.findOne({ name: "woocommerceApi" })
+      .select("content")
+      .exec((err, woocommerceApi) => {
+        return res.json({
+          token,
+          user: { _id, nom, email, phone, nomAfficher, role, address, store },
+          woocommerceApi: woocommerceApi.content
+        });
+      });
   });
 };
 
@@ -152,6 +155,8 @@ exports.update = (req, res) => {
     newUser.salt = undefined;
     user.hashed_password = undefined;
     const { _id, nom, email, phone, role, address, store } = newUser;
+
+    
     res.json({
       user: { _id, nom, email, phone, role, address, store },
       profile: newUser
