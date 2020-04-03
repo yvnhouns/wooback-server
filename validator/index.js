@@ -154,7 +154,7 @@ exports.postValidator = [
 ];
 
 exports.settingValidator = [
-  check("content", "Vous devez saisir le contenu pour cette configuration")
+  check("content", "Vous  devez saisir le contenu pour cette configuration")
     .not()
     .isEmpty()
 ];
